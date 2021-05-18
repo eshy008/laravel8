@@ -136,19 +136,91 @@ class StudentController extends Controller
         return redirect("list-data");
     }
 
-    //this is how to use query builder.Meanwhile i added the use DB above N.B we used the first ()method instead off the get method. first methods goves the class object while the collection object for get() method. i can also removed the where() method and use the find() method instead of first()
+    //this is how to use query builder.Meanwhile i added the use DB above N.B we used the first ()method instead off the get method. first methods gives the class object while the collection object for get() method. i can also removed the where() method and use the find() method instead of first()
     public function listStudents() {
-        // $students = DB::table("students")->where("id", 5)->select("id", "name", "email as email_address")->first();
+            // $students = DB::table("students")->where("id", 5)->select("id", "name", "email as email_address")->first();
 
 
         // $students = DB::table("students")->where("email", "like", "%example.org")->get();
 
-        $students = DB::table("students")->where("id", ">=", 18)->get();
+        //$students = DB::table("students")->where("id", ">=", 18)->get();
 
-        echo "<pre>";
+            //this is how to write SELECT * from students WHERE id=3 AND name = "abc"
+        // $students = DB::table("students")->where("id", 3)->where("name", "abc")->get();
 
-        print_r($students);
+            //SELECT * from Students WHERE id=2 AND (name=="abc" OR email = "abc@gmail.com")
+        // $students = DB::table("students")->where("id", 2)->where(function($query){$query->where("name", "abc")->orWhere("email", "abc@gmail.com")})->get();
 
+            //SELECT * from Students WHERE name ="abc" OR (id =3 AND email="abc@gmail.com")
+        // $students = DB::table("students")->where("name", "abc")->orWhere(function($query){$query->where("id", 3)->where("email", "abc@gmail.com");
+        // })->get();
+
+            //SELECT * from Students WHERE id Between 2 AND 30
+        // $students = DB::table("students")->whereBetween("id", [2,30])->get();
+
+            //SELECT * from Students WHERE id IN(1,100,110,175)
+        // $students = DB::table("students")->whereIn("id", [1,100,110,175])->get();
+
+    //this is used in learning joins, right joins and left joins
+
+            // $students = DB::table("students")->select("students.id", "students.name as student_name", "students.email as email", "courses.name as course_name", "courses.amount as amount")->join("courses", "students.id", "=", "courses.student_id")->get();
+
+        
+        
+            // echo "<pre>";
+            //  print_r($students);
+
+
+    }
+        //using query builder method to insert and update db
+
+        public function insertStudent() {
+            // DB::table("students")->insert([
+            //     "name" => "Sample",
+            //     "email" => "sample@test.com",
+            //     "mobile" => "897497367665"
+            // ]);
+
+            //     $inserted_id = DB::table("students")->insertGetId([
+            //         "name" => "Sample",
+            //         "email" => "sample@test.com",
+            //         "mobile" => "897497367665"
+            //     ]);
+            // echo "data has been saved with id =" . $inserted_id;
+
+
+            //this is used to insert bulk items in the database
+
+        //     DB::table("students")->insert(
+        //         [
+        //     [ "name"=>"A", "email"=>"a@aa.com", "mobile"=>"46893088884"],
+        //     [ "name"=>"B", "email"=>"b@aa.com", "mobile"=>"89088884"]
+        //         ]
+        // );
+        //  echo "bulk data has been saved ";
+
+        // this is used to  update details in a databes using the query builder
+
+        // DB::table("students")->where("id", 22)->update([
+        //     "name" => "updated value",
+        //     "email" => "updated@value.com"
+        // ]);
+        //     echo "data has been updated";
+
+
+        //this is to update or insert depending on which is needed, e.g if the email exists, it would update,if the email doesnt exist, it inserts
+
+        // DB::table("students")->updateOrInsert(
+        //     ["email" => "a@aa.com"], //conditions
+        //     [
+        //         "name" => "updated Value of C",
+        //         "mobile" => "44444444444"
+        //     ] //data
+        // );
+            //deleting using query builder
+        // DB::table("students")->where("id", 7)->delete();
+     //truncate also deletes all the data from the table but when inserting the id on the database starts from id=1
+        //DB::table("students")->truncate();
 
     }
 }

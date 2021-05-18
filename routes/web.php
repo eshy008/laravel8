@@ -111,3 +111,7 @@ Route::post("edit-student", [StudentController::class, "submitEditStudent"]);
 
 //Route for query builder
 Route::get("students", [StudentController::class, "listStudents"]);
+
+//Route for insert method using query builder
+
+Route::get("save-student", [StudentController::class, "insertStudent"]);
