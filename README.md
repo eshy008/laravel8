@@ -88,4 +88,7 @@ NB: php artisan make:model, is used to associate to a table in any database e.g 
 
 NB: php artisan make:model employee -all .. the --all flag created, the seeders, migration, model e.t.c
 
+NB: Accessors are used to access data from the database, and then change its form e.g capitalization, before displaying it , while mutators are the opposite.
+
+
 
